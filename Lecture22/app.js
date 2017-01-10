@@ -78,8 +78,6 @@
       var shoppingList=new ShoppingListService(provider.defaults.maxItems);
       return shoppingList;
     }
-
   }
-
-
+  
 })();
