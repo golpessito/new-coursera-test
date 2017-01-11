@@ -13,6 +13,7 @@
     service.checkName=function(name){
 
       var deferred=$q.defer();
+
       var result={
         message:""
       };
@@ -62,26 +63,63 @@
       return items;
     };
 
+    // service.addItem=function(itemName,itemQuantity){
+    //   var promise=WeightLossFilterService.checkName(itemName);
+    //
+    //   promise.then(function (response){
+    //     var nextPromise=WeightLossFilterService.checkQuantity(itemQuantity);
+    //
+    //     nextPromise.then(function (result){
+    //       var item={
+    //         name:itemName,
+    //         quantity:itemQuantity
+    //       };
+    //
+    //       items.push(item);
+    //
+    //     },
+    //     function(errorResponse){
+    //       console.log(errorResponse.message);
+    //     });
+    //   },
+    //   function (errorResponse){
+    //     console.log(errorResponse.message);
+    //   });
+    // };
+
+    // service.addItem=function(itemName,itemQuantity){
+    //   var promise=WeightLossFilterService.checkName(itemName);
+    //
+    //   promise.then(function(response){
+    //     return WeightLossFilterService.checkQuantity(itemQuantity);
+    //   })
+    //   .then(function(response){
+    //     var item={
+    //              name:itemName,
+    //              quantity:itemQuantity
+    //              };
+    //
+    //     items.push(item);
+    //   })
+    //   .catch(function(errorResponse){
+    //     console.log(errorResponse.message);
+    //   });
+    // };
+
     service.addItem=function(itemName,itemQuantity){
       var promise=WeightLossFilterService.checkName(itemName);
+      var nextPromise=WeightLossFilterService.checkQuantity(itemQuantity);
 
-      promise.then(function (response){
-        var nextPromise=WeightLossFilterService.checkQuantity(itemQuantity);
+      $q.all([promise,nextPromise])
+      .then(function(reponse){
+        var item={
+                    name:itemName,
+                    quantity:itemQuantity
+                  };
 
-        nextPromise.then(function (result){
-          var item={
-            name:itemName,
-            quantity:itemQuantity
-          };
-
-          items.push(item);
-
-        },
-        function(errorResponse){
-          console.log(errorResponse.message);
-        });
-      },
-      function (errorResponse){
+        items.push(item);
+      })
+      .catch(function(errorResponse){
         console.log(errorResponse.message);
       });
 
