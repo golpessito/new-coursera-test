@@ -30,7 +30,8 @@
   //   return ddo;
   // };
 
-  function ShoppingListComponentController(){
+  ShoppingListComponentController.$inject=['$scope','$element'];
+  function ShoppingListComponentController($scope,$element){
     var $ctrl=this;
     $ctrl.cookiesInList=function(){
       for(var i=0; i<$ctrl.items.length; i++){
@@ -45,7 +46,32 @@
     $ctrl.remove=function(myIndex){
       $ctrl.onRemove({index:myIndex});
     };
-    
+
+    $ctrl.$onInit = function(){
+      console.log("We are in $onInit()");
+    }
+
+    $ctrl.$onChanges=function(changeObj){
+      console.log("Changes: ",changeObj);
+    }
+
+    $ctrl.$postLink=function(){
+      $scope.$watch('$ctrl.cookiesInList();',function(newValue,oldValue){
+        if(newValue===true){
+          //Show Warning
+          var warningElement=$element.find('div.error');
+          console.log(warningElement);
+          warningElement.slideDown(900);
+        }
+        else{
+          //Hide Warning
+          var warningElement=$element.find('div.error');
+          warningElement.slideUp(900);
+        }
+
+      });
+    };
+
   };
 
   ShoppingListController1.$inject=['ShoppingListFactory'];
