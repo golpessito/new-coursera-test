@@ -39,8 +39,6 @@
 
  };
 
-
-
   ShoppingListComponentController.$inject=['$rootScope','$element','$q','WeightLossFilterService'];
   function ShoppingListComponentController($rootScope,$element,$q,WeightLossFilterService){
     var $ctrl=this;
